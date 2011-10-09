@@ -20,6 +20,8 @@ to run follow this example; "gcc -o rexbot rexbot.c; ./rexBot ip port nick chan 
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+   
+   thanks i4k,sigsegv to help us...
 */
 #include <stdio.h>
 #include <netinet/in.h>
