@@ -25,7 +25,7 @@
   "..::Hyde:NetWork:FlowTest::..",
 
  Need RooT to COmpile THis
-  gcc -o hyde2 hyde2.c;
+  gcc -o hyde2 hyde2.c -lpthread;
 
 Author: Cooler_
 E-mail: c00f3r[at]gmail[dot]com
