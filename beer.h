@@ -18,7 +18,7 @@ last check up
   (______________________) 
   |                      |
   |   ...:::Beer:::...   |
-  |...::::Version:0.01::.|
+  |...::::Version:0.02::.|
   |                      |
   |______________________|
   |                      |
@@ -272,6 +272,20 @@ int bit_sqrt(int num)
   tbit>>=2;
  }
  return result;
+}
+
+// test if is palindrome
+int palindrome(const char *s)
+{
+  int x,y;
+  
+  y = strlen(s);
+  for(x=0; x<y/2; x++)
+  {
+   if( s[x] != s[y-x-1] ) 
+    return 0; 
+  }
+  return 1;
 }
 
 // return time
