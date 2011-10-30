@@ -38,8 +38,8 @@ E-mail: c00f3r[at]gmail[dot]com
 date: 03/08/2011
 
 thanks: 
-  _mlk_,
-  I4K("for cool macros and other things"),
+  _mlk_,m0nad,
+  I4K,sigsegv,b-man
   delfo,c0lt7r,B4r0n,joey,fokerbug,
   zepplin,voidpointer,muzgo,memset,b4r0n,novato_br...
 
