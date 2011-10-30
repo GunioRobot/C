@@ -387,6 +387,82 @@ int sort_int(const void *a, const void *b)
  return (*a1 > *b1);
 }
 
+//example mergesort(a, 0, sizeof(a)/sizeof(i) - 1);
+void mergesort(int *array, size_t first, size_t last)
+{
+ int middle;
+       
+ if(first>=last)
+  return;
+		
+ middle = (first + last) / 2;
+ mergesort(array, first, middle);
+ mergesort(array, middle + 1, last);
+
+ int *temp;
+ size_t i = first,j = middle + 1,tp = 0;
+ temp = (int *) malloc(sizeof(int) * (last - first + 1));
+	       
+ while(i <= middle && j <= last)
+ {
+  if(array[i] <= array[j])
+  {
+   temp[tp] = array[i];
+   ++i;
+  }	
+  else
+  {
+   temp[tp] = array[j];
+   ++j;
+  }
+  ++tp;
+ }
+	
+ while(j<=last)
+ {
+  temp[tp] = array[j];
+  ++tp;
+  j++;
+ }		
+ while(i<=middle)
+ {
+  temp[tp] = array[i];
+  ++tp;
+  i++;
+ }
+	
+ i=first;
+ while(i<=last)
+ {
+  array[i] = temp[i - first];
+  i++;
+ }	
+
+ free(temp);
+}
+
+void bubble(void *p, int width, int N, int(*fptr)(const void *, const void *)) 
+{
+ int i, j, k;
+//unsigned força para negativo
+ unsigned char buf[MAX_BUF];
+ unsigned char *bp = p;
+//aqui você não vai ter nenhum problema se você entendeu o algoritmo
+  for (i = N-1; i >= 0; i--) 
+  {
+   for (j = 1; j <= i; j++) 
+   {
+    k = fptr((void *)(bp + width*(j-1)), (void *)(bp + j*width));
+    if(k > 0) 
+    {
+     memcpy(buf, bp + width*(j-1), width);
+     memcpy(bp + width*(j-1), bp + j*width , width);
+     memcpy(bp + j*width, buf, width);
+    }
+   }
+  }
+}
+
 
 // ########################### other functions
 
