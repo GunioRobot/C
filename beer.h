@@ -441,13 +441,13 @@ void mergesort(int *array, size_t first, size_t last)
  free(temp);
 }
 
-void bubble(void *p, int width, int N, int(*fptr)(const void *, const void *)) 
+void bubbleSort(void *p, int width, int N, int(*fptr)(const void *, const void *)) 
 {
  int i, j, k;
-//unsigned força para negativo
- unsigned char buf[MAX_BUF];
+
+ unsigned char buf[256];
  unsigned char *bp = p;
-//aqui você não vai ter nenhum problema se você entendeu o algoritmo
+
   for (i = N-1; i >= 0; i--) 
   {
    for (j = 1; j <= i; j++) 
