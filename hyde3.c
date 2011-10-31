@@ -32,7 +32,7 @@ E-mail: c00f3r[at]gmail[dot]com
 date: 17/03/2010
 BugSec Security TEAM
 http://code.google.com/p/bugsec/
-thanks: m0nad,_mlk_,IAK,sigsegv,delfo,c0lt7r,joey,fokerbug,zepplin,otacon,backbone,nibbles,voidpointer,muzgo...
+thanks: m0nad,_mlk_,IAK,sigsegv,b-man,delfo,c0lt7r,joey,fokerbug,zepplin,otacon,backbone,nibbles,voidpointer,muzgo...
  
 */
 #include <stdio.h>    
@@ -58,8 +58,6 @@ thanks: m0nad,_mlk_,IAK,sigsegv,delfo,c0lt7r,joey,fokerbug,zepplin,otacon,backbo
 //Mutex Always is global, because the functions need look him to call
 pthread_mutex_t morfo = PTHREAD_MUTEX_INITIALIZER;
 
-
-// tenho que melhorar esse random ...
 char *RandomIp(void)
 {     
  char *ipRand=NULL;
@@ -457,12 +455,12 @@ int main(int argc, char *argv[])
    thread=(pthread_t *)malloc(sizeof(pthread_t)*filhos+1);
    char **ThreadArgv;
 
-   ThreadArgv=malloc(3*sizeof(char *));
-   char *StrPort=malloc(sizeof(char *));
+   ThreadArgv=(char **)malloc(4*sizeof(char *));
+   char *StrPort=(char *)malloc(sizeof(char)*6);
    sprintf( StrPort,"%d",  port);
    ThreadArgv[2]=StrPort;
    ThreadArgv[3]=StrPort;
-   char *StrChoice=malloc(sizeof(char *));
+   char *StrChoice=(char *)malloc(sizeof(char)*3);
    sprintf( StrChoice,"%d", escolha);
    ThreadArgv[4]=StrChoice;
    remetente=RandomIp();
@@ -517,11 +515,12 @@ int main(int argc, char *argv[])
     }
    number--;    
   }
+  // free heap \o/
  free(thread);
  free(destino);
-// free(ThreadArgv);
-// free(StrPort);
-// free(StrChoice);
+ free(ThreadArgv);
+ free(StrPort);
+ free(StrChoice);
   
  return 0;
 }    
