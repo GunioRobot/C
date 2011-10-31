@@ -25,14 +25,14 @@
   "..::Hyde:NetWork:FlowTest::..",
 
  Need RooT to COmpile THis
-  gcc -o hyde2 hyde2.c -lpthread;
+  gcc -o hyde2 hyde2.c;
 
 Author: Cooler_
 E-mail: c00f3r[at]gmail[dot]com
 date: 17/03/2010
 BugSec Security TEAM
 http://code.google.com/p/bugsec/
-thanks: m0nad,_mlk_,IAK,sigsegv,b-man,delfo,c0lt7r,joey,fokerbug,zepplin,otacon,backbone,nibbles,voidpointer,muzgo...
+thanks: m0nad,_mlk_,IAK,sigsegv,delfo,c0lt7r,joey,fokerbug,zepplin,otacon,backbone,nibbles,voidpointer,muzgo...
  
 */
 #include <stdio.h>    
@@ -494,6 +494,7 @@ int main(int argc, char *argv[])
     else
     { 
 // packing arguments 2 function
+     remetente=RandomIp();
      ThreadArgv[0]=remetente;
      ThreadArgv[1]=destino;
      fprintf(stdout,"Hyde look %s in port %u, spoofing %s in port %u\n", destino, port, remetente, port);   
@@ -515,13 +516,15 @@ int main(int argc, char *argv[])
     }
    number--;    
   }
-  // free heap \o/
+// free HEAP \o/  
  free(thread);
  free(destino);
  free(ThreadArgv);
  free(StrPort);
  free(StrChoice);
-  
+ free(remetente);
  return 0;
 }    
+
+
 
