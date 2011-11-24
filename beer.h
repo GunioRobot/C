@@ -401,7 +401,7 @@ void mergesort(int *array, size_t first, size_t last)
 
  int *temp;
  size_t i = first,j = middle + 1,tp = 0;
- temp = (int *) malloc(sizeof(int) * (last - first + 1));
+ temp = (int *) alloca(sizeof(int) * (last - first + 1));
 	       
  while(i <= middle && j <= last)
  {
