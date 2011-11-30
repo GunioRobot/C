@@ -612,36 +612,44 @@ char *strrev(char *str)
  return str;
 }
 
-//simple split , char **b = split("bla la ca zo ?", ' '); pust(b[1])...
-char **split(char *str, char s)
-{
-  char **buff = NULL;
-  char word[515] = {0};
-  int nbrCase = 0;
-  int iWord;
-  int i;
-  
-  for(i = 0; str[i] != '\0'; i++)
-   if(str[i] == s)
-    nbrCase++;
-  nbrCase += 1;
-  
-  if(!(buff = alloca(sizeof(char *) * nbrCase)))
-   DEBUG("error in split()");
- 
-  for(i = 0, nbrCase = 0, iWord = 0; str[i] != '\0'; i++, iWord++)
-  {
-    word[iWord] = str[i];
-    if(str[i] == s)
-    {
-      if(!(buff[nbrCase] = alloca(sizeof(char) * strlen(word) + 1)))
-        DEBUG("error in split()");
-      strcpy(buff[nbrCase], word);
-      nbrCase++;
-      iWord = 0;
-      bzero(word, 515);
-    }
-  }
-  return buff;
-}
 
+// simple split return array of strings between string separator
+char **split(char *string, char separator, int arraySize)
+{
+ int inicio=0,count=2,i=0,x=0;
+ char **newarray;
+
+ while(string[i] != '\0')
+ {
+// numero de elementos que tera nosso array 
+  if(string[i]==separator)
+   count++;
+  i++;              
+ }
+
+ arraySize=count-1;
+ newarray=calloc(count,sizeof(char*));
+ i=0;
+
+ while(*string!='\0') 
+ {
+  if(*string==separator) 
+  {
+   newarray[i]=calloc(x-inicio+2,sizeof(char));
+   strncpy(newarray[i],string-x+inicio,x-inicio);
+   newarray[i][x-inicio+1]='\0'; 
+   inicio=x;
+   inicio++;
+   i++;
+  }
+  string++;
+  x++;
+ }
+        
+ newarray[i]=calloc(x-inicio+1,sizeof(char));
+ strncpy(newarray[i],string-x+inicio,x-inicio);
+ newarray[++i]=NULL;
+ 
+ return newarray;
+}
+  
