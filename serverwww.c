@@ -1,3 +1,4 @@
+// example how too do http server in C , by Cooler_
 #include <stdio.h>
 #include <errno.h>
 #include <sys/socket.h>
