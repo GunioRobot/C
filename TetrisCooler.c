@@ -5,6 +5,7 @@ author: Cooler_
 -Qua Mar 23 15:58:48 2011
 "so i see dead peoples!" 
 
+
  Logic based in IOCCC http://www.ioccc.org/1989/tromp.hint
 */
 #include <stdio.h>
