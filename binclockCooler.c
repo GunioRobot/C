@@ -2,6 +2,7 @@
 Simples brincadeira com ncurses
 relogio binario
 
+
 $ gcc -o binclockCooler binclockCooler.c -lncurses
 
 by Cooler_
