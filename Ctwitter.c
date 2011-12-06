@@ -1,7 +1,14 @@
 /*
+NOTA!!! ESTE PROGRAMA não FUNCIONA MAIS, TWITTER ESTA USANDO ALGUMA OUTRA
+PARADIGMA DE AUTENTIFICAÇÃO CHAMADA OAUTH...
 
-GarageCode Genial Creations Hehehe
-http://BotecoUnix.com.br
+este programa funcionava antes da implementação do OAUTH do twitter,
+agora deve-se se cadastrar na sessão de developers do twitter  e pegar
+um tipo de KEY para só depois poder fazer o webSpider...
+
+
+
+http://bugsec.com.br
 
 *função do programa
 Postar no twitter para mostrar um simples funcionamento de um Spider em linguagem C
