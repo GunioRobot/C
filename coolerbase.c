@@ -1,6 +1,6 @@
 /*
 
-i make this programm for work purpoises 
+i make this programm for work purpoises
 
 *programa conversor de bases de 2 até 100 e -2 a -54
 requer lib "gmp", para compilar "gcc -o code code.c -lgmp"
@@ -13,15 +13,15 @@ Date: 13/12/2010
 
 *History of Code
  I maked this programme for work motives,i needed do big convertions but i dont had time to do all
- So something every boring to do, Then so went make programme to do this. i had got finish all task 
- in right time. this is result of some minutes of work. 
+ So something every boring to do, Then so went make programme to do this. i had got finish all task
+ in right time. this is result of some minutes of work.
 
 
-Author: Antonio "Cooler_" 
+Author: Antonio "Cooler_"
 contact: c00f3r@gmail.com
 license: BSD
- 
-Thanks _mlk_ , m0nad,IAK,D3lf0 
+
+Thanks _mlk_ , m0nad,IAK,D3lf0
 
 K&R for book ansi C
 
@@ -58,7 +58,7 @@ K&R for book ansi C
 static int pegabase(char **p);
 int erro(mpz_t op);
 
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
 
  long long BaseEntrada, BaseSaida;
@@ -66,21 +66,21 @@ int main(int argc, char **argv)
  size_t size;
  mpz_t op;
 
- if(argc < 2 || argc > 3) 
+ if(argc < 2 || argc > 3)
  {
   fprintf(stderr, "Coded by Cooler_ \nbase convert v0.1\n between 2 until 100 & -2 until -54\n%s [numero] <Base>\n", argc ? *argv : "base");
   return EXIT_FAILURE;
  }
 
  BaseSaida = strtol(argv[argc-1], &p, 10);
- if(!argv[argc-1][0] || *p != 0 || !((BaseSaida > -55 && BaseSaida < -1) || (BaseSaida > 1 && BaseSaida < 101))) 
+ if(!argv[argc-1][0] || *p != 0 || !((BaseSaida > -55 && BaseSaida < -1) || (BaseSaida > 1 && BaseSaida < 101)))
  {
   fprintf(stderr, "base invalida '%s'. pode estar entre -2 ,-54 e 2,100\n", argv[argc-1]);
   return EXIT_FAILURE;
  }
 
- if(argc == 2) 
- { 
+ if(argc == 2)
+ {
   mpz_init(op);
 
    do {
@@ -88,7 +88,7 @@ int main(int argc, char **argv)
      size = strlen(buf);
     if(buf[size-1] == '\n') buf[--size] = 0;
    num = buf;
-    if( (BaseEntrada = pegabase(&num)) == -1) 
+    if( (BaseEntrada = pegabase(&num)) == -1)
     {
      fprintf(stderr, "base invalida '%s'. pode estar entre -2 ,-54 e 2 ,100\n", num);
      continue;
@@ -97,7 +97,7 @@ int main(int argc, char **argv)
      fprintf(stderr, "Base %lld não bate com '%s'\n", BaseEntrada, num);
      continue;
     }
-    if(!mpz_out_str(stdout, BaseSaida, op)) 
+    if(!mpz_out_str(stdout, BaseSaida, op))
      erro(op);
     putchar('\n');
   } while(fgets(buf, sizeof buf, stdin) != NULL);
@@ -106,15 +106,15 @@ int main(int argc, char **argv)
 
  } else {
   num = argv[1];
-  if((BaseEntrada = pegabase(&num)) == -1) 
+  if((BaseEntrada = pegabase(&num)) == -1)
   {
    fprintf(stderr, "base invalida '%s'. pode estar entre -2 ,-54 e 2 ,100\n", num);
    return EXIT_FAILURE;
   }
-  if(mpz_init_set_str(op, num, BaseEntrada) == -1) 
+  if(mpz_init_set_str(op, num, BaseEntrada) == -1)
    erro(op);
- 
-  if(!mpz_out_str(stdout, BaseSaida, op)) 
+
+  if(!mpz_out_str(stdout, BaseSaida, op))
    erro(op);
   putchar('\n');
   mpz_clear(op);
@@ -122,12 +122,12 @@ int main(int argc, char **argv)
  return 0;
 }
 
-static int pegabase(char **p) 
+static int pegabase(char **p)
 {
  char *a, *b;
  long long res;
-	
- if((a = strchr(*p, 'r')) != NULL) 
+
+ if((a = strchr(*p, 'r')) != NULL)
  {
   *a = 0;
   res = strtol(*p, &b, 10);
@@ -140,7 +140,7 @@ static int pegabase(char **p)
  return  res;
 }
 
-int erro(mpz_t op) 
+int erro(mpz_t op)
 {
  perror(NULL);
  mpz_clear(op);

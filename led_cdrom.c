@@ -5,10 +5,10 @@
    abrindo cdrom,
    fazendo piscar a luz do seu teclado
    inútil , mais em termos de hardware
-   é legal estudar :-) ioctl.h controlar 
+   é legal estudar :-) ioctl.h controlar
    dispositivos da sua máquina...
 
-autor:Cooler_  
+autor:Cooler_
 contato:c00f3r[at]gmail[dot]com
 bugsec.com.br
 

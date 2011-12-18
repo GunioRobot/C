@@ -1,5 +1,5 @@
 /*
-last check up 
+last check up
 03/08/2011
 ------------
 
@@ -8,14 +8,14 @@ last check up
       (____________ )
        |           |
        |           |
-       |           |  
+       |           |
        |           |
       /             \
-     /               \ 
-    /                 \  
+     /               \
+    /                 \
    /                   \
   /                     \
-  (______________________) 
+  (______________________)
   |                      |
   |   ...:::Beer:::...   |
   |...::::Version:0.02::.|
@@ -27,7 +27,7 @@ last check up
   |                      |
   |                      |
   (______________________)
-0101010101010110101010101010101101010101010   
+0101010101010110101010101010101101010101010
 
 is held by Apache license 2.0
 -----------------------
@@ -37,7 +37,7 @@ Authors: Cooler_,m0nad,ryonagana,b4r0n
 E-mail: c00f3r[at]gmail[dot]com
 date: 03/08/2011
 
-thanks: 
+thanks:
   _mlk_,m0nad,
   I4K,sigsegv,b-man
   delfo,c0lt7r,B4r0n,joey,fokerbug,
@@ -52,7 +52,7 @@ thanks:
 #include <time.h>
 
 //macro to read stdin string
-#define ReadString(a) fgets(a,sizeof(a),stdin),a[strlen(a)-1] = '\0'; 
+#define ReadString(a) fgets(a,sizeof(a),stdin),a[strlen(a)-1] = '\0';
 
 //return elements of array
 #define array_elements(array) (sizeof(array) / sizeof *(array))
@@ -88,16 +88,16 @@ thanks:
 
 // convert decimal to binary
 char * dec2bin(int n, char * string)
-{ 
- int i; 
+{
+ int i;
  static int size = 8 * sizeof(int);
- 
-  for(i = size - 1; i >= 0; i--, n >>= 1) 
+
+  for(i = size - 1; i >= 0; i--, n >>= 1)
    string[i] = (01 & n) + '0';
- 
- string[size] = '\0'; 
- return string; 
-} 
+
+ string[size] = '\0';
+ return string;
+}
 
 // Hexadecimal to Character
 
@@ -105,7 +105,7 @@ char * dec2bin(int n, char * string)
 Hex2Char(char *Hex)
 {
  char rch=0;
- int i=0; 
+ int i=0;
 
  while(i<2)
  {
@@ -174,33 +174,33 @@ unsigned long hex2int(char *a, unsigned int len)
 
 //  Math functions
 /*
-MDC Máximo Divisor Comum,dois números inteiros é o maior número inteiro que divide 
+MDC Máximo Divisor Comum,dois números inteiros é o maior número inteiro que divide
 ambos sem deixar resto.
 */
-int mdc(int a,int b) 
+int mdc(int a,int b)
 {
-  if(!b) 
+  if(!b)
    return a;
-  else 
+  else
    return mdc(b,a%b);
 }
 
 /*
-MMC = mínimo múltiplo comum entre dois números é representado 
-pelo menor valor comum pertencente aos múltiplos dos números. 
+MMC = mínimo múltiplo comum entre dois números é representado
+pelo menor valor comum pertencente aos múltiplos dos números.
 */
-int mmc(int a,int b) 
+int mmc(int a,int b)
 {
  int formula;
-   if(!b) 
+   if(!b)
     return a;
-   else 
+   else
     formula = (a*b)/(mdc(a,b));
  return (formula);
-} 
+}
 
 // quadratic equation
-char * baskara(float a, float b, float c, float *raizes) 
+char * baskara(float a, float b, float c, float *raizes)
 {
  float delta=((b*b)-4*(a*c));
  float x1=0,x2=0;
@@ -209,9 +209,9 @@ char * baskara(float a, float b, float c, float *raizes)
  if((!a)||(delta<0))
  {
   DEBUG("error in equation baskara(), delta: %f ",delta);
-  return 0; 
+  return 0;
  }
- if(delta>0) 
+ if(delta>0)
   x1=((-b + ((float)bit_sqrt(delta)) )/(2*a));
  x2=((-b - ((float)bit_sqrt(delta)) )/(2*a));
  snprintf(reply,sizeof(reply)," X1 : %5.2f \n X2 : %5.2f\n",x1,x2);
@@ -238,14 +238,14 @@ int isprime(int n)
   return -1;
  }
 
- while(d<n) 
+ while(d<n)
  {
   if(!(n%d))
    return 0;
   d+=2;
  }
  return 1;
-}  
+}
 
 //square root by Cooler_
 int bit_sqrt(int num)
@@ -258,9 +258,9 @@ int bit_sqrt(int num)
   DEBUG("error bit_sqrt(), num = %d ",num);
   return -1;
  }
-        
+
  while(tbit>num0)
-  tbit>>=2;     
+  tbit>>=2;
  while(tbit^0)
  {
   if(num0>=result+tbit)
@@ -278,12 +278,12 @@ int bit_sqrt(int num)
 int palindrome(const char *s)
 {
   int x,y;
-  
+
   y = strlen(s);
   for(x=0; x<y/2; x++)
   {
-   if( s[x] != s[y-x-1] ) 
-    return 0; 
+   if( s[x] != s[y-x-1] )
+    return 0;
   }
   return 1;
 }
@@ -306,13 +306,13 @@ int CopyFile(char *fromfile, char *tofile)
  FILE *ifp, *ofp;
  int c;
 
- if((ifp = fopen(fromfile, "r")) == NULL) 
+ if((ifp = fopen(fromfile, "r")) == NULL)
   return -1;
- if((ofp = fopen(tofile, "w")) == NULL) 
- { 
-  fclose(ifp); 
+ if((ofp = fopen(tofile, "w")) == NULL)
+ {
+  fclose(ifp);
   DEBUG("Error CopyFile()");
-  return -1; 
+  return -1;
  }
 
  while((c = getc(ifp)) != EOF)
@@ -326,15 +326,15 @@ int CopyFile(char *fromfile, char *tofile)
 int WriteFile(char *file,char *str)
 {
  FILE *arq;
- 
- arq=fopen(file,"a"); 
-  if(!arq) 
+
+ arq=fopen(file,"a");
+  if(!arq)
   {
-   DEBUG("error in WriteFile() %s",file); 
+   DEBUG("error in WriteFile() %s",file);
    return 0;
   }
- fprintf(arq,"%s\n",str); 
- fclose(arq); 
+ fprintf(arq,"%s\n",str);
+ fclose(arq);
  return 1;
 }
 
@@ -354,7 +354,7 @@ const char *readLine(char * NameFile)
   exit(1);
  }
 
- while(fgets(line,sizeof line,file))  
+ while(fgets(line,sizeof line,file))
  {
   lineBuffer=realloc(lineBuffer,strlen(lineBuffer)+strlen(line)+1);
   if(!lineBuffer)
@@ -375,12 +375,12 @@ const char *readLine(char * NameFile)
   qsort((void *)list, array_elements(list), sizeof(list[0]), sort_char);
 */
 
-int sort_char( const void *a, const void *b) 
+int sort_char( const void *a, const void *b)
 {
  return( strcmp(a,b) );
 }
 
-int sort_int(const void *a, const void *b) 
+int sort_int(const void *a, const void *b)
 {
  long *a1, *b1;
  a1 = (long *)a; b1 = (long *)b;
@@ -391,10 +391,10 @@ int sort_int(const void *a, const void *b)
 void mergesort(int *array, size_t first, size_t last)
 {
  int middle;
-       
+
  if(first>=last)
   return;
-		
+
  middle = (first + last) / 2;
  mergesort(array, first, middle);
  mergesort(array, middle + 1, last);
@@ -402,14 +402,14 @@ void mergesort(int *array, size_t first, size_t last)
  int *temp;
  size_t i = first,j = middle + 1,tp = 0;
  temp = (int *) alloca(sizeof(int) * (last - first + 1));
-	       
+
  while(i <= middle && j <= last)
  {
   if(array[i] <= array[j])
   {
    temp[tp] = array[i];
    ++i;
-  }	
+  }
   else
   {
    temp[tp] = array[j];
@@ -417,43 +417,43 @@ void mergesort(int *array, size_t first, size_t last)
   }
   ++tp;
  }
-	
+
  while(j<=last)
  {
   temp[tp] = array[j];
   ++tp;
   j++;
- }		
+ }
  while(i<=middle)
  {
   temp[tp] = array[i];
   ++tp;
   i++;
  }
-	
+
  i=first;
  while(i<=last)
  {
   array[i] = temp[i - first];
   i++;
- }	
+ }
 
  free(temp);
 }
 
-void bubbleSort(void *p, int width, int N, int(*fptr)(const void *, const void *)) 
+void bubbleSort(void *p, int width, int N, int(*fptr)(const void *, const void *))
 {
  int i, j, k;
 
  unsigned char buf[256];
  unsigned char *bp = p;
 
-  for (i = N-1; i >= 0; i--) 
+  for (i = N-1; i >= 0; i--)
   {
-   for (j = 1; j <= i; j++) 
+   for (j = 1; j <= i; j++)
    {
     k = fptr((void *)(bp + width*(j-1)), (void *)(bp + j*width));
-    if(k > 0) 
+    if(k > 0)
     {
      memcpy(buf, bp + width*(j-1), width);
      memcpy(bp + width*(j-1), bp + j*width , width);
@@ -467,65 +467,65 @@ void bubbleSort(void *p, int width, int N, int(*fptr)(const void *, const void *
 // ########################### other functions
 
 char *RandomIp(void)
-{     
+{
  char *ipRand=NULL;
  int r1,r2,r3,r4;
 
- r1 = 1+(int) (255.0*rand()/(RAND_MAX+1.0));          
- r2 = 1+(int) (255.0*rand()/(RAND_MAX+1.0));          
- r3 = 1+(int) (255.0*rand()/(RAND_MAX+1.0));          
- r4 = 1+(int) (255.0*rand()/(RAND_MAX+1.0));          
+ r1 = 1+(int) (255.0*rand()/(RAND_MAX+1.0));
+ r2 = 1+(int) (255.0*rand()/(RAND_MAX+1.0));
+ r3 = 1+(int) (255.0*rand()/(RAND_MAX+1.0));
+ r4 = 1+(int) (255.0*rand()/(RAND_MAX+1.0));
 
  ipRand=alloca(12*sizeof(char *));
- sprintf(ipRand,"%d.%d.%d.%d",r1,r2,r3,r4); 
+ sprintf(ipRand,"%d.%d.%d.%d",r1,r2,r3,r4);
 
- return ipRand; 
+ return ipRand;
 }
 
 
 //test if e-mails is valid
-int email_isvalid(const char *address) 
+int email_isvalid(const char *address)
 {
   int count = 0;
   const char *c, *domain;
   static char *rfc822_specials = "()<>@,;:\\\"[]";
 
   /* first we validate the name portion (name@domain) */
-  for (c = address;  *c;  c++) 
+  for (c = address;  *c;  c++)
   {
-    if (*c == '\"' && (c == address || *(c - 1) == '.' || *(c - 1) == '\"')) 
+    if (*c == '\"' && (c == address || *(c - 1) == '.' || *(c - 1) == '\"'))
     {
-      while (*++c) 
+      while (*++c)
       {
-        if (*c == '\"') 
+        if (*c == '\"')
          break;
-        if (*c == '\\' && (*++c == ' ')) 
+        if (*c == '\\' && (*++c == ' '))
          continue;
-        if (*c <= ' ' || *c >= 127) 
+        if (*c <= ' ' || *c >= 127)
          return 0;
       }
-      if(!*c++) 
+      if(!*c++)
        return 0;
-      if(*c == '@') 
+      if(*c == '@')
        break;
-      if(*c != '.') 
+      if(*c != '.')
        return 0;
       continue;
     }
-    if(*c == '@') 
+    if(*c == '@')
      break;
-    if(*c <= ' ' || *c >= 127) 
+    if(*c <= ' ' || *c >= 127)
      return 0;
-    if(strchr(rfc822_specials, *c)) 
+    if(strchr(rfc822_specials, *c))
      return 0;
   }
-  if(c == address || *(c - 1) == '.') 
+  if(c == address || *(c - 1) == '.')
    return 0;
   /* next we validate the domain portion (name@domain) */
-  if(!*(domain = ++c)) 
+  if(!*(domain = ++c))
    return 0;
   do {
-    if (*c == '.') 
+    if (*c == '.')
     {
       if (c == domain || *(c - 1) == '.') return 0;
       count++;
@@ -540,7 +540,7 @@ int email_isvalid(const char *address)
 char *scapeSQL(const char *input, char quote, int wildcards) {
   char       *out, *ptr;
   const char *c;
-   
+
   /* If every character in the input needs to be escaped, the resulting string
    * would at most double in size.  Also, include room for the surrounding
    * quotes.
@@ -577,7 +577,7 @@ char *scapeSQL(const char *input, char quote, int wildcards) {
 void urlobfuscator (char * url, char * obf)
 {
   int i;
-  for (i = 0; i < (int)strlen (url); i++) 
+  for (i = 0; i < (int)strlen (url); i++)
    snprintf (obf+strlen(obf), sizeof obf, "%02X", url [i]);
 //  obf [strlen (obf)] = 0;
    obf[i*2] = 0;
@@ -621,23 +621,23 @@ char **split(char *string, char separator, int arraySize)
 
  while(string[i] != '\0')
  {
-// numero de elementos que tera nosso array 
+// numero de elementos que tera nosso array
   if(string[i]==separator)
    count++;
-  i++;              
+  i++;
  }
 
  arraySize=count-1;
  newarray=calloc(count,sizeof(char*));
  i=0;
 
- while(*string!='\0') 
+ while(*string!='\0')
  {
-  if(*string==separator) 
+  if(*string==separator)
   {
    newarray[i]=calloc(x-inicio+2,sizeof(char));
    strncpy(newarray[i],string-x+inicio,x-inicio);
-   newarray[i][x-inicio+1]='\0'; 
+   newarray[i][x-inicio+1]='\0';
    inicio=x;
    inicio++;
    i++;
@@ -645,11 +645,11 @@ char **split(char *string, char separator, int arraySize)
   string++;
   x++;
  }
-        
+
  newarray[i]=calloc(x-inicio+1,sizeof(char));
  strncpy(newarray[i],string-x+inicio,x-inicio);
  newarray[++i]=NULL;
- 
+
  return newarray;
 }
-  
+

@@ -139,13 +139,13 @@ void
 WriteFile(char *file,char *str)
 {
  FILE *arq;
- 
- arq=fopen(file,"a"); 
-  if(!arq) 
-   puts("error to write log file"); 
- fprintf(arq,"%s\n",str); 
 
- fclose(arq); 
+ arq=fopen(file,"a");
+  if(!arq)
+   puts("error to write log file");
+ fprintf(arq,"%s\n",str);
+
+ fclose(arq);
 }
 
 void
@@ -158,14 +158,14 @@ TookPacket(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
  const char *payload;                    /* Packet payload */
  char *FileWord;
  int size_ip,size_tcp,size_payload;
-	
+
  fprintf(stdout,"\nPacket number %d:\n", count);
  count++;
-	
+
  ethernet=(struct sniff_ethernet*)(packet);
  ip=(struct sniff_ip*)(packet + SIZE_ETHERNET);
  size_ip=IP_HL(ip)*4;
- if(size_ip<20) 
+ if(size_ip<20)
  {
   fprintf(stdout,"* Invalid IP header length: %u bytes\n", size_ip);
   return;
@@ -173,8 +173,8 @@ TookPacket(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
 
  fprintf(stdout,"From: %s\n", inet_ntoa(ip->ip_src));
  fprintf(stdout,"To: %s\n", inet_ntoa(ip->ip_dst));
-		
- switch(ip->ip_p) 
+
+ switch(ip->ip_p)
  {
   case IPPROTO_TCP:
    puts("   Protocol: TCP\n");
@@ -185,30 +185,30 @@ TookPacket(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
    return;
   default:
    puts("   Protocol: unknown\n");
-   return;	
+   return;
  }
 
  tcp = (struct sniff_tcp*)(packet + SIZE_ETHERNET + size_ip);
  size_tcp = TH_OFF(tcp)*4;
 
- if (size_tcp < 20) 
+ if (size_tcp < 20)
  {
   fprintf(stdout,"* Invalid TCP header length: %u bytes\n", size_tcp);
   return;
  }
-	
+
  fprintf(stdout,"Src port: %d\n", ntohs(tcp->th_sport));
  fprintf(stdout,"Dst port: %d\n", ntohs(tcp->th_dport));
-	
+
 /* define/compute tcp payload (segment) offset */
- payload = (char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);	
+ payload = (char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);
 /* compute tcp payload (segment) size */
  size_payload = ntohs(ip->ip_len) - (size_ip + size_tcp);
 
 //string to word in file
  FileWord=malloc( sizeof(char *)*size_payload );
-	
- if(size_payload^0) 
+
+ if(size_payload^0)
  {
   fprintf(stdout,"   Payload (%d bytes):\n", size_payload);
   fprintf(stdout,"Look Payload:\n%s\n",payload);
@@ -227,26 +227,26 @@ TookPacket(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
 
 int main(int argc, char **argv)
 {
- char *dev = NULL;			
- char errbuf[PCAP_ERRBUF_SIZE];		
+ char *dev = NULL;
+ char errbuf[PCAP_ERRBUF_SIZE];
  char filter_exp[] = "ip";
 
- pcap_t *handle;				
- struct bpf_program fp;			
- bpf_u_int32 mask;			
- bpf_u_int32 net;			
+ pcap_t *handle;
+ struct bpf_program fp;
+ bpf_u_int32 mask;
+ bpf_u_int32 net;
 
- int num_packets = 0;			
+ int num_packets = 0;
 
  Logo();
 
  if(!(argc^4))
- { 
+ {
   dev = argv[1];
   num_packets= atoi(argv[2]);
   FileName=argv[3];
  }
- else if (argc > 3) 
+ else if (argc > 3)
  {
   fprintf(stderr, "error: unrecognized command-line options\n\n");
   Usage();
@@ -255,16 +255,16 @@ int main(int argc, char **argv)
  else {
 /* find a capture device if not specified on command-line */
   dev = pcap_lookupdev(errbuf);
-  if(dev == NULL) 
+  if(dev == NULL)
   {
    fprintf(stderr, "Couldn't find default device: %s\n",
    errbuf);
    exit(EXIT_FAILURE);
   }
  }
-	
+
  /* get network number and mask associated with capture device */
- if(pcap_lookupnet(dev, &net, &mask, errbuf) == -1) 
+ if(pcap_lookupnet(dev, &net, &mask, errbuf) == -1)
  {
   fprintf(stderr, "Couldn't get netmask for device %s: %s\n",dev, errbuf);
   net = 0;
@@ -278,28 +278,28 @@ int main(int argc, char **argv)
 
 /* open capture device */
  handle = pcap_open_live(dev, SNAP_LEN, 1, 1000, errbuf);
- if (handle == NULL) 
+ if (handle == NULL)
  {
   fprintf(stderr, "Couldn't open device %s: %s\n", dev, errbuf);
   exit(EXIT_FAILURE);
  }
 
 /* make sure we're capturing on an Ethernet device [2] */
- if (pcap_datalink(handle) ^ DLT_EN10MB) 
+ if (pcap_datalink(handle) ^ DLT_EN10MB)
  {
   fprintf(stderr, "%s is not an Ethernet\n", dev);
   exit(EXIT_FAILURE);
  }
 
 /* compile the filter expression */
- if (pcap_compile(handle, &fp, filter_exp, 0, net) == -1) 
+ if (pcap_compile(handle, &fp, filter_exp, 0, net) == -1)
  {
   fprintf(stderr, "Couldn't parse filter %s: %s\n",
   filter_exp, pcap_geterr(handle));
   exit(EXIT_FAILURE);
  }
 /* apply the compiled filter */
- if (pcap_setfilter(handle, &fp) == -1) 
+ if (pcap_setfilter(handle, &fp) == -1)
  {
   fprintf(stderr, "Couldn't install filter %s: %s\n",
   filter_exp, pcap_geterr(handle));

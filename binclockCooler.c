@@ -24,7 +24,7 @@ do{ for(i=a, k=c, j=CHAR_BIT-1; k--; i--, j--) \
 
 void uc2bin(int c, char *s);
 
-int main() 
+int main()
 {
  struct tm *tm;
  time_t t;
@@ -46,7 +46,7 @@ int main()
  start_color();
  init_pair(2, COLOR_YELLOW, COLOR_BLACK);
  attrset(COLOR_PAIR(2) | A_BOLD);
- 
+
  mvprintw(2, 17, "   10000  100000  100000  10   10000 1000");
  mvprintw(3, 17, "   00     00  00  00  00  00   0     00 00");
  mvprintw(4, 17, "   00     00  00  00  00  00   000   0000");
@@ -61,11 +61,11 @@ int main()
  m[0][2] = ' ';
  m[1][0] = ' ';
  m[0][0] = ' ';
- while(1) 
+ while(1)
  {
   time(&t);
   tm = localtime(&t);
-  if(!tm) 
+  if(!tm)
    exit(EXIT_FAILURE);
   strftime(s, sizeof s, "%H%M%S", tm);
   for(i = 0; i < 6; s[i++] -= '0');
@@ -77,23 +77,23 @@ int main()
   loop(3, 4, 3);
   for (i = 0; i < 4; i++) {
     move(11+i,31);
-    sprintf(s, "%s",m[i]); 
+    sprintf(s, "%s",m[i]);
     addstr(s);
   }/*
   move(11,31);
-  sprintf(s, "%s",m[0]); 
+  sprintf(s, "%s",m[0]);
   addstr(s);
 
   move(12,31);
-  sprintf(s, "%s",m[1]); 
+  sprintf(s, "%s",m[1]);
   addstr(s);
-  
+
   move(13,31);
   sprintf(s, "%s",m[2]);
   addstr(s);
-  
+
   move(14,31);
-  sprintf(s, "%s",m[3]);  
+  sprintf(s, "%s",m[3]);
   addstr(s);
 */
   refresh();
@@ -103,8 +103,8 @@ int main()
  return 0;
 }
 
-void uc2bin(int c, char *s) 
-{ 
+void uc2bin(int c, char *s)
+{
  size_t i;
  unsigned char uc = c;
 

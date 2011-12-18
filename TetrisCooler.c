@@ -1,9 +1,9 @@
 /*
- ...::::Tetris:::... 
+ ...::::Tetris:::...
 contact: c00f3r@gmail.com
 author: Cooler_
 -Qua Mar 23 15:58:48 2011
-"so i see dead peoples!" 
+"so i see dead peoples!"
 
 
  Logic based in IOCCC http://www.ioccc.org/1989/tromp.hint
@@ -29,9 +29,9 @@ long h[4];
 int nivel=0,pontos=0;
 int mesa[B_SIZE], sombra[B_SIZE];
 int blocos[] = {
-    7,  TopoEsquerda,  TopoCentro,  MeioDireita, 
-    8,  TopoDireita,  TopoCentro,  MeioEsquerda, 
-    9,  MeioEsquerda,  MeioDireita,  ChaoCentro, 
+    7,  TopoEsquerda,  TopoCentro,  MeioDireita,
+    8,  TopoDireita,  TopoCentro,  MeioEsquerda,
+    9,  MeioEsquerda,  MeioDireita,  ChaoCentro,
     3,  TopoEsquerda,  TopoCentro,  MeioEsquerda,
    12,  MeioEsquerda,  ChaoEsquerda,  MeioDireita,
    15,  MeioEsquerda,  ChaoDireita,  MeioDireita,
@@ -42,30 +42,30 @@ int blocos[] = {
    11,  TopoCentro,  MeioEsquerda,  MeioDireita,
     2,  TopoCentro,  MeioEsquerda,  ChaoCentro,
    13,  TopoCentro,  ChaoCentro,  ChaoDireita,
-   14,  TopoDireita,  MeioEsquerda,  MeioDireita, 
+   14,  TopoDireita,  MeioEsquerda,  MeioDireita,
     4,  TopoEsquerda,  TopoCentro,  ChaoCentro,
    16,  TopoDireita,  TopoCentro,  ChaoCentro,
-   17,  TopoEsquerda,  MeioDireita,  MeioEsquerda, 
+   17,  TopoEsquerda,  MeioDireita,  MeioEsquerda,
     5,  TopoCentro,  ChaoCentro,  ChaoEsquerda,
-    6,  TopoCentro,  ChaoCentro,  2 * B_COLUNAS,   
+    6,  TopoCentro,  ChaoCentro,  2 * B_COLUNAS,
 };
 
-void 
+void
 alarm_handler (int signal __attribute__ ((unused)))
 {
  h[3]-=h[3]/3000;
  setitimer(0,(struct itimerval *)h,0);
-} 
+}
 
 // atualizar mesa
-int 
+int
 update (void)
 {
  int A;
  int I=0,i=11;
  static int B=0;
 
- do{ 
+ do{
   if((A=mesa[i])-sombra[i])
   {
    sombra[i]=A;
@@ -85,7 +85,7 @@ update (void)
  return A;
 }
 
-int 
+int
 fits_in(int *bloco, int pos)
 {
  if(mesa[pos]||mesa[pos+bloco[1]]||mesa[pos+bloco[2]]||mesa[pos+bloco[3]])
@@ -93,7 +93,7 @@ fits_in(int *bloco, int pos)
  return 1;
 }
 
-void 
+void
 lugar(int *bloco, int pos, int b)
 {
  mesa[pos]=b;
@@ -102,7 +102,7 @@ lugar(int *bloco, int pos, int b)
  mesa[pos+bloco[3]]=b;
 }
 
-int 
+int
 main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)))
 {
  int *backup,*bloco,*ptr;
@@ -110,7 +110,7 @@ main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)))
 
  sigset_t set;
  struct sigaction action;
- 
+
  char *chaves = "zxc ps";
 
  h[3]=1000000/(nivel=1);
@@ -118,10 +118,10 @@ main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)))
 
  for(i=B_SIZE; i; i--)
   *ptr++=i<25||i%12<2?7:0;
-   
+
  srand(getpid());
  system("stty cbreak -echo stop u");
-  
+
  sigemptyset(&set);
  sigaddset(&set,SIGALRM);
  sigemptyset(&action.sa_mask);
@@ -140,7 +140,7 @@ main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)))
     if(c<0)
     {
      if(fits_in(bloco,pos+12))
-      pos+=12;    
+      pos+=12;
      else
      {
       lugar(bloco,pos,7);
@@ -150,40 +150,40 @@ main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)))
 // se fazer 10 blocos apaga
         if(X%12==10)
         {
-         while(X%12) 
-          mesa[X--]=0; 
+         while(X%12)
+          mesa[X--]=0;
          c=update();
-         while(--X) 
+         while(--X)
           mesa[X+12]=mesa[X];
          c=update();
         }
-                
+
       bloco=&blocos[rand()%7*4];
       if(!fits_in(bloco,pos=17))
        c=chaves[5];
      }
     }
-   
-    if(c==chaves[0])         // z - "esquerda" 
+
+    if(c==chaves[0])         // z - "esquerda"
      if(!fits_in(bloco, --pos))
       ++pos;
-      
-    if(c==chaves[1])         // X - "troca" 
+
+    if(c==chaves[1])         // X - "troca"
     {
      backup=bloco;
-     bloco=&blocos[4 * *bloco]; // roda posição 
+     bloco=&blocos[4 * *bloco]; // roda posição
      if(!fits_in(bloco, pos))
       bloco=backup;
     }
 
-      if(c==chaves[2])         // c - "direita" 
+      if(c==chaves[2])         // c - "direita"
        if(!fits_in(bloco, ++pos))
         --pos;
-      
+
       if(c==chaves[3])         // <espaço> cair bloco atual
-       while(fits_in(bloco,pos+12))  
+       while(fits_in(bloco,pos+12))
         ++pontos,pos+=12;
-         
+
       if(c==chaves[4]||c==chaves[5])
       {
          sigprocmask(SIG_BLOCK, &set, NULL);

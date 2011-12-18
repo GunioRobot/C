@@ -18,19 +18,19 @@ usando lib Curl
  libcurl-dev
  visit this site to many things "http://curl.haxx.se"
 
-*tested with GCC 
- on Unix/Linux/*BSD this: 
-    gcc -o program program.c -l curl; ./program     
+*tested with GCC
+ on Unix/Linux/*BSD this:
+    gcc -o program program.c -l curl; ./program
 
-Author: Antonio "Cooler_" 
+Author: Antonio "Cooler_"
 contact: tony.unix@yahoo.com.br
 license: BSD
 
 visit this site: http://BotecoUnix.com.br
 Real Geeks BotecoUnix
 
-greetz 
-Thanks muzgo,_mlk_ ,m0nad,IAK,Fox,D3lf0 and nibbles. 
+greetz
+Thanks muzgo,_mlk_ ,m0nad,IAK,Fox,D3lf0 and nibbles.
 K&R for book ansi C
 
       .--..--..--..--..--..--.
@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
     curl_handle = curl_easy_init();
     CURLcode saida;
   //iniciamos o spider
-  //definimos status para nosso post no twitter 
+  //definimos status para nosso post no twitter
     msg ="status=twitter post with C Code by Cooler_";
   //passamos URL
     curl_easy_setopt(curl_handle, CURLOPT_URL, "http://twitter.com/statuses/update.xml");

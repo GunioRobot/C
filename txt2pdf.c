@@ -8,22 +8,22 @@ http://GarageCode.tk
 this program i use to convert file TXT to PDF
 
 *tested with GCC but wheel in others compilers...
- i wheel on Unix/Linux/*BSD this: 
+ i wheel on Unix/Linux/*BSD this:
     gcc -Wall -o program program.c -l cairo; ./program
 
-Author: Antonio "Cooler_x0a" 
+Author: Antonio "Cooler_x0a"
 contact: tony.unix@yahoo.com.br
 license: BSD
 
 visit this site: http://BotecoUnix.com.br
 Real Geeks BotecoUnix
 
-greetz 
-Thanks _mlk_ , m0nad,IAK,Fox,nibbles and Chris Torek. 
+greetz
+Thanks _mlk_ , m0nad,IAK,Fox,nibbles and Chris Torek.
 K&R for book ansi C
 
-reference and Big greetz 
-http://web.torek.net/torek/ 
+reference and Big greetz
+http://web.torek.net/torek/
 
       .--..--..--..--..--..--.
     .' \  (`._   (_)     _   \
@@ -76,14 +76,14 @@ int main(int argc, char **argv) {
   position=50.0;
 //abrir file ler linha por linha e escrever no PDF
   fp = fopen("text.txt", "r");
-    if(!fp) return 1; 
+    if(!fp) return 1;
   while(fgets(str,sizeof(str),fp) != NULL) {
       int len = strlen(str)-1;
       if(str[len] == '\n') str[len] = 0;
      printf("\x0a %s", str);
   cairo_move_to(cr, 8.0, position);
   cairo_show_text(cr, str);
-//variavel position sempre atribui o tamanho da fonte inicial no caso 20 
+//variavel position sempre atribui o tamanho da fonte inicial no caso 20
 //assim temos uma lógica simples fazendo pular a linha
   position+=8;
  }
